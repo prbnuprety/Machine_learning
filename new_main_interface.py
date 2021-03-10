@@ -7,7 +7,7 @@ import os
 import messaging
 import numpy as np
 import face_recognition
-from machine_learning import final_eval_cvlib
+
 import gender_detector
 import mask_detector
 import smoking
