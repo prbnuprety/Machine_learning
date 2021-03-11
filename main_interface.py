@@ -7,7 +7,13 @@ import os
 import messaging
 import numpy as np
 import face_recognition
-from machine_learning import final_eval_cvlib
+
+import weapon_detect
+import smoking
+import mask_detector
+import gender_detector
+
+
 
 class Project:
     """ Initializing variables and login interface """
@@ -24,9 +30,30 @@ class Project:
         self.file = "haarcascade_frontalface_default.xml"
         self.data = cv.CascadeClassifier(self.file)
 
-        self.frame_left = Frame(self.interface, width=300, height=500, bg='grey')
+        self.frame_left = Frame(self.interface, width=300, height=470, bg='lightblue')
         self.frame_left.grid(row=0, column=0, padx=8, pady=5)
 
+        self.frame_green = Frame(self.frame_left, width=290, height=30)
+        self.frame_green.place(x=4, y=8)
+
+        self.Label123 = Label(self.frame_green, text='"YOU ARE UNDER CCTV SURVEILLANCE"', font='gothic 10 bold',
+                              fg="red")
+        self.Label123.place(x=3, y=5)
+        self.Label2 = Label(self.interface, text="TEAM CODE:'P@SS ", bg="lightblue", font="mincho 17 bold", fg="red")
+        self.Label2.place(x=50, y=485)
+
+        self.frame_l = Frame(self.frame_left, width=280, height=430, bg="grey")
+        self.frame_l.place(x=10, y=50)
+
+        # loading images in frame2_right###
+        self.bg = Image.open("frontface.PNG")
+        # resized image
+        self.resized = self.bg.resize((280, 360), Image.ANTIALIAS)
+        self.image2 = ImageTk.PhotoImage(self.resized)
+
+        # Image size
+        self.bg_image = Label(self.frame_l, image=self.image2)
+        self.bg_image.pack(pady=1)
 
         self.frame2_right = Frame(self.interface, width=750, height=580, bg='grey')
         self.frame2_right.grid(row=0, column=1, padx=10, pady=5)
@@ -46,16 +73,16 @@ class Project:
                           fg="red")
         self.desc.place(x=400, y=140)
 
-        self.frame4 = Frame(self.frame2_right, bg="white")
+        self.frame4 = Frame(self.frame2_right, bg="lightgreen")
         self.frame4.place(x=400, y=170, height=250, width=400)
 
-        self.label_username = Label(self.frame4, text="Username", font="cambria 18 bold", fg="gray")
+        self.label_username = Label(self.frame4, text="Username", font="cambria 18 bold", bg="lightgreen")
         self.label_username.place(x=10, y=10)
 
         self.label_username_entry = Entry(self.frame4, width=30, bg="lightgray", font="serif 12 ", fg="black")
         self.label_username_entry.place(x=15, y=45, width=300, height=30)
 
-        self.label_password = Label(self.frame4, text="Password", font="cambria 18 bold", fg="gray")
+        self.label_password = Label(self.frame4, text="Password", font="cambria 18 bold", bg="lightgreen")
         self.label_password.place(x=10, y=75)
 
         self.label_password_entry = Entry(self.frame4, show="*", width=30, bg="lightgray", font="serif 12  ",
@@ -64,7 +91,6 @@ class Project:
 
         self.login_btn = Button(self.frame4, text="LogIn", fg="purple", font="serif 14 bold", command=self.login)
         self.login_btn.place(x=200, y=155)
-
         self.forget_btn = Button(self.frame4, text="Forget Password?", fg='red', font="serif 12 bold",command=self.face_login)
         self.forget_btn.place(x=15, y=200)
 
@@ -96,22 +122,22 @@ class Project:
         self.frame_dr.place(x=920, y=470)
 
         Button(self.frame_l, text="Face Recognition", font=("cambria", 15, "bold"), fg="green", height=2,
-               width=18, command=lambda: self.cam_access()).place(x=5, y=5)
+               width=18, command=lambda:face_recognition.face(self.frame_r,self.frame_dl)).place(x=5, y=5)
         Button(self.frame_l, text="Gender Detection", font=("cambria", 15, "bold"), fg="green", height=2,
-               width=18, command=lambda: self.cam_access()).place(x=5, y=85)
-        Button(self.frame_l, text="Mask Detection", font=("cambria", 15, "bold"), fg="green", height=2, width=18,command=lambda: final_eval_cvlib.mask(self.frame_r)).place(
-            x=5, y=165)
+               width=18, command=lambda: gender_detector.gen(self.frame_r,self.frame_dl)).place(x=5, y=85)
+        Button(self.frame_l, text="Mask Detection", font=("cambria", 15, "bold"), fg="green", height=2,
+               width=18,command=lambda: mask_detector.mask(self.frame_r,self.frame_dl)).place(x=5, y=165)
         Button(self.frame_l, text="Weapon Detection", font=("cambria", 15, "bold"), fg="green", height=2,
-               width=18, command=lambda: self.cam_access()).place(x=5, y=245)
+               width=18, command=lambda: weapon_detect.weapon(self.frame_r,self.frame_dl)).place(x=5, y=245)
         Button(self.frame_l, text="Smoking Detection", font=("cambria", 15, "bold"), fg="green", height=2,
-               width=18, command=lambda: self.cam_access()).place(x=5, y=325)
-        Button(self.frame_l, text="Overall interface", font=("cambria", 15, "bold"), fg="green", height=2, width=18,
-               command=lambda: self.cam_access()).place(x=5, y=405)
-        Button(self.frame_l, text="Exit", font=("cambria", 15, "bold"), fg="green", height=2, width=18,
-               command=lambda: self.back(self.main_int)).place(x=5, y=490)
+               width=18, command=lambda: smoking.smoke(self.frame_r,self.frame_dl)).place(x=5, y=325)
+        # Button(self.frame_l, text="Overall interface", font=("cambria", 15, "bold"), fg="green", height=2, width=18,
+        #        command=lambda: self.cam_access()).place(x=5, y=405)
+        Button(self.frame_l, text="Exit", font=("cambria", 10, "bold"), fg="green", height=1, width=12,
+               command=lambda: self.back(self.main_int)).place(x=6, y=500)
 
         Label(self.frame_dl, text="Information Panel",font=("Courier", 20), bg = "black", fg="white").place(x=150, y=0)
-        Label(self.frame_dl, text="No options selected",font=("Courier", 35), bg="black", fg="white").place(x=10, y=40)
+
 
         Label(self.frame_dr, text="Current User",font=("Courier", 12), bg="black", fg="white").place(x=20, y=0)
         Label(self.frame_dr, text=f"{self.username1}".upper(), bg="black",font=("Courier", 18), fg="white").place(x=0,y= 20)
@@ -443,11 +469,12 @@ class Project:
                 self.result = self.cur.fetchone()
                 if self.result == None:
                     messagebox.showerror("Error", "Username don't exist in database ")
-
+                    self.login_clear()
                 else:
                     if self.result[0] == self.password1:
                         messagebox.showinfo("login", "Successfully logged in")
                         self.load_backend()
+                        self.login_clear()
                         self.counter = 0
                     else:
                         self.counter += 1
@@ -455,6 +482,7 @@ class Project:
                             messaging.send_error_login()
                         print(self.counter)
                         messagebox.showerror("Error", "Username or password do not matched")
+                        self.login_clear()
             else:
                 messagebox.showerror("Error", "Username or password is empty")
 
@@ -463,6 +491,10 @@ class Project:
             messagebox.showerror("Error", e)
 
         self.con.close()
+
+    def login_clear(self):
+        self.label_username_entry.delete(0, END)
+        self.label_password_entry.delete(0, END)
 
 
 interface = Tk()
