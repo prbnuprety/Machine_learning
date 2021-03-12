@@ -224,12 +224,10 @@ class Project:
             self.image = cv.resize(self.image, dsize=(450, 350), interpolation=cv.INTER_CUBIC)
             self.image = Image.fromarray(self.image)  # to PIL format
             self.image = ImageTk.PhotoImage(self.image)  # to ImageTk format
-            self.canvas.create_image(500, 200, image=self.image)
+            self.canvas.create_image(250, 250, image=self.image)
 
         except:
             pass
-
-
 
         if self.ret != False:
             self.frame2_right.after(self.interval, self.update_image)
@@ -260,7 +258,6 @@ class Project:
         self.boy_frame= Frame(self.frame1,width=265,height=365,bg="lightgrey")
         self.boy_frame.place(x=45,y=220)
 
-    #
         self.label = Label(self.boy_frame, text="We kindly request you to register here!!", font=("serif", 10,"bold"),
                     fg="red",bg="lightgrey")
         self.label.place(x=5, y=0)
