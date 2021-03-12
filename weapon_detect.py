@@ -8,6 +8,7 @@ from PIL import Image, ImageTk
 def weapon(frame1,frame2):
 
     model = load_model("Models/weapon.model")
+    # cap = cv2.VideoCapture("http://<IP Address>:4747/mjpegfeed")
     cap = cv2.VideoCapture(0)
 
     classes = ["Weapon Detected",'No weapon']

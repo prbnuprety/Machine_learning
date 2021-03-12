@@ -4,6 +4,8 @@ machine_learning/sachin/real_dataset
 /machine_learning/*
 /machine_learning
 /Smoking/*
+/Models
+Models/
 smoking.py
 /Models/*
 .git/

@@ -10,8 +10,12 @@ def send_error_login():
 
     client = Client(account_sid, auth_token)
 
+    # personal = "+9779816921343"
+    personal = "+9779840664814"
+    # personal = "+9779818378555"
+    # personal = "+9779817946035"
     message = client.messages.create(
-        to="+9779816921343",
+        to= f"{personal}",
         from_="+12159874772",
         body="Failed Login in the Secret project")
 

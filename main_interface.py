@@ -121,7 +121,7 @@ class Project:
         self.frame_dr = Frame(self.main_int, width=150, height=120, bg="black")
         self.frame_dr.place(x=920, y=470)
 
-        Button(self.frame_l, text="Face Recognition", font=("cambria", 15, "bold"), fg="green", height=2,
+        Button(self.frame_l, text="Face Detection", font=("cambria", 15, "bold"), fg="green", height=2,
                width=18, command=lambda:face_recognition.face(self.frame_r,self.frame_dl)).place(x=5, y=5)
         Button(self.frame_l, text="Gender Detection", font=("cambria", 15, "bold"), fg="green", height=2,
                width=18, command=lambda: gender_detector.gen(self.frame_r,self.frame_dl)).place(x=5, y=85)
@@ -160,7 +160,8 @@ class Project:
             Label(self.frame_dl, text="Gaining Camera Access", font=("Courier", 20), bg="black",
                   fg="green").place(x=10, y=40)
 
-        self.cap = cv.VideoCapture(0)
+        # self.cap = cv2.VideoCapture("http://<IP Address>:4747/mjpegfeed")
+        self.cap = cv2.VideoCapture(0)
         self.canvas2 =  Canvas(self.frame_r, width=785, height=425)
         self.canvas2.place(x=10, y=10)
         self.video_cap()
@@ -186,7 +187,8 @@ class Project:
 
     def photo_register(self):
 
-        self.cap = cv.VideoCapture(0)
+        # self.cap = cv2.VideoCapture("http://<IP Address>:4747/mjpegfeed")
+        self.cap = cv2.VideoCapture(0)
         self.interval = 1
         self.frame2 = Frame(self.frame1, width=1000, height=500, bg="red")
         self.frame2.place(x=50, y=50)
@@ -428,7 +430,8 @@ class Project:
         self.cap_button = Button(self.frame2, text='Capture', command=lambda: self.take_pic, fg="purple",
                                  font="serif 16 bold")
 
-        self.cap = cv.VideoCapture(0)
+        # self.cap = cv2.VideoCapture("http://<IP Address>:4747/mjpegfeed")
+        self.cap = cv2.VideoCapture(0)
         _, self.vid = self.cap.read()
 
         for i in range(1, 1000):

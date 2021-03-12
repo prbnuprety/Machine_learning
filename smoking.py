@@ -9,9 +9,10 @@ from PIL import Image, ImageTk
 
 def smoke(frame1, frame2):
     model = load_model("Models/smoke.model")
+    # cap = cv2.VideoCapture("http://<IP Address>:4747/mjpegfeed")
     cap = cv2.VideoCapture(0)
 
-    classes = ["Smoking", 'Not ']
+    classes = ['Not ', "Smoking"]
     canvas = Canvas(frame1, width=785, height=425)
     canvas.place(x=10, y=10)
     exit_button = Button(frame1, text='Close', fg="purple", font="serif 16 bold",

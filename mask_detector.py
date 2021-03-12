@@ -11,6 +11,7 @@ def mask(frame1,frame2):
     cascade = "haarcascade_frontalface_default.xml"
     face_classifier = cv2.CascadeClassifier(cascade)
 
+    # cap = cv2.VideoCapture("http://<IP Address>:4747/mjpegfeed")
     cap = cv2.VideoCapture(0)
     labels_dict = {0: "MASK", 1: "NO MASK"}
     color_dict = {0: (0, 255, 0), 1: (0, 0, 255)}
