@@ -13,6 +13,8 @@ import smoking
 import mask_detector
 import gender_detector
 import face_recognition
+from winsound import Beep
+import time
 
 
 class Project:
@@ -188,7 +190,7 @@ class Project:
     def photo_register(self):
 
         # self.cap = cv2.VideoCapture("http://<IP Address>:4747/mjpegfeed")
-        self.cap = cv2.VideoCapture(0)
+        self.cap = cv.VideoCapture(0)
         self.interval = 1
         self.frame2 = Frame(self.frame1, width=1000, height=500, bg="red")
         self.frame2.place(x=50, y=50)
@@ -238,84 +240,94 @@ class Project:
     """Interface to register a user inorder to login"""
 
     def register_here(self):
-
         self.frame_left.grid_forget()
         self.frame2_right.grid_forget()
         self.interface.title('Registration Page')
 
-        self.frame1 = Frame(self.interface, width=1080, height=600, bg="White")
-        self.frame1.place(x=0, y=0)
+        self.frame1 = Frame(self.interface, width=600, height=800, bg="grey")
+        self.frame1.place(x=330, y=30)
 
-        self.frame3 = Frame(self.frame1, width=400, height=500, bg="blue")
-        self.frame3.place(x=50, y=50)
 
-        self.label = Label(self.frame1, text="We kindly request you to register here!!", font=("serif", 14, "bold"),
-                           fg="red")
-        self.label.place(x=300, y=0)
+        # loading images in frame2_right###
 
-        self.label_fname = Label(self.frame3, text="First Name", font=("calibri", 15, "bold"), fg="grey")
-        self.label_fname.place(x=10, y=10)
+        self.bg_1 = Image.open('form.png')
+        self.resized_1 = self.bg_1.resize((350, 550), Image.ANTIALIAS)
+        self.image2_1= ImageTk.PhotoImage(self.resized_1)
 
-        self.entry_fname = Entry(self.frame3, font=('calibri', 15, 'bold'), fg="black", bg="lightgrey")
-        self.entry_fname.place(x=130, y=10, height=30, width=200)
+        self.bg_image_1 = Label(self.frame1, image=self.image2_1)
+        self.bg_image_1.pack(pady=1)
 
-        self.label_middle_name = Label(self.frame3, text="Middle Name", font=("calibri", 15, "bold"), fg="grey")
-        self.label_middle_name.place(x=10, y=45)
+        self.boy_frame= Frame(self.frame1,width=265,height=365,bg="lightgrey")
+        self.boy_frame.place(x=45,y=220)
 
-        self.entry_middle_name = Entry(self.frame3, font=('calibri', 15, 'bold'), fg="black", bg="lightgrey")
-        self.entry_middle_name.place(x=130, y=45, height=30, width=200)
-
-        self.label_lname = Label(self.frame3, text="Last Name", font=("calibri", 15, "bold"), fg="grey")
-        self.label_lname.place(x=10, y=80)
-
-        self.entry_lname_name = Entry(self.frame3, font=('calibri', 15, 'bold'), fg="black", bg="lightgrey")
-        self.entry_lname_name.place(x=130, y=80, height=30, width=200)
-
-        self.label_age = Label(self.frame3, text="Age", font=("calibri", 15, "bold"), fg="grey")
-        self.label_age.place(x=10, y=115)
-
-        self.entry_age_name = Entry(self.frame3, font=('calibri', 15, 'bold'), fg="black", bg="lightgrey")
-        self.entry_age_name.place(x=130, y=115, height=30, width=200)
-
-        self.label_num = Label(self.frame3, text="Phone No.", font=("cambria", 15, "bold"), fg="grey")
-        self.label_num.place(x=10, y=150)
-
-        self.entry_num = Entry(self.frame3, font=('cambria', 15, 'bold'), fg="black", bg="lightgrey")
-        self.entry_num.place(x=130, y=150, height=30, width=200)
-
-        self.label_gender = Label(self.frame3, text="Gender", font=("calibri", 15, "bold"), fg="grey")
-        self.label_gender.place(x=10, y=190)
-
-        self.entry_gender = ttk.Combobox(self.frame3, state="readonly", values=["Male", "Female", "Others"],
-                                         font=("calibri", 15, "bold"))
-        self.entry_gender.place(x=130, y=190, height=30, width=200)
+    #
+        self.label = Label(self.boy_frame, text="We kindly request you to register here!!", font=("serif", 10,"bold"),
+                    fg="red",bg="lightgrey")
+        self.label.place(x=5, y=0)
+        #
+        self.label_fname = Label(self.boy_frame, text="First Name ", font=("calibri", 13, "bold"), bg="lightgrey")
+        self.label_fname.place(x=7, y=25)
+        #
+        self.entry_fname = Entry(self.boy_frame, font=('calibri', 13, 'bold'), bg="lightgrey")
+        self.entry_fname.place(x=108, y=25, height=28,width=150)
+        #
+        self.label_middle_name = Label(self.boy_frame, text="Middle Name", font=("calibri", 13, "bold"), bg="lightgrey")
+        self.label_middle_name.place(x=7, y=50)
+        #
+        self.entry_middle_name = Entry(self.boy_frame, font=('calibri', 13, 'bold'), bg="lightgrey")
+        self.entry_middle_name.place(x=108, y=50, height=30, width=150)
+        #
+        self.label_lname = Label(self.boy_frame, text="Last Name", font=("calibri", 15, "bold"), bg="lightgrey")
+        self.label_lname.place(x=7, y=80)
+        #
+        self.entry_lname_name = Entry(self.boy_frame, font=('calibri', 15, 'bold'), bg="lightgrey")
+        self.entry_lname_name.place(x=108, y=80, height=30, width=150)
+        #
+        self.label_age = Label(self.boy_frame, text="Age", font=("calibri", 13, "bold"), bg="lightgrey")
+        self.label_age.place(x=7, y=110)
+        #
+        self.entry_age_name = Entry(self.boy_frame, font=('calibri', 15, 'bold'), fg="black", bg="lightgrey")
+        self.entry_age_name.place(x=108, y=110, height=30, width=150)
+        #
+        self.label_num = Label(self.boy_frame, text="Phone No.", font=("cambria", 13, "bold"), bg="lightgrey")
+        self.label_num.place(x=7, y=140)
+        #
+        self.entry_num = Entry(self.boy_frame, font=('cambria', 15, 'bold'), fg="black", bg="lightgrey")
+        self.entry_num.place(x=108, y=140, height=30, width=150)
+        #
+        self.label_gender = Label(self.boy_frame, text="Gender", font=("calibri", 13, "bold"), bg="lightgrey")
+        self.label_gender.place(x=7, y=170)
+        #
+        self.entry_gender = ttk.Combobox(self.boy_frame, state="readonly", values=["Male", "Female", "Others"],
+                                          font=("calibri", 15, "bold"))
+        self.entry_gender.place(x=108, y=170, height=30, width=150)
         self.entry_gender.set("Select")
-        self.label_username = Label(self.frame3, text="Username", font=("calibri", 15, "bold"), fg="grey")
-        self.label_username.place(x=10, y=225)
-
-        self.entry_username = Entry(self.frame3, font=('calibri', 15, 'bold'), fg="black", bg="lightgrey")
-        self.entry_username.place(x=130, y=225, height=30, width=200)
-
-        self.label_password = Label(self.frame3, text="Password", font=("calibri", 15, "bold"), fg="grey")
-        self.label_password.place(x=10, y=260)
-
-        self.entry_password = Entry(self.frame3, show="*", font=('calibri', 15, 'bold'), fg="black", bg="lightgrey")
-        self.entry_password.place(x=130, y=260, height=30, width=200)
-
-        self.label_confirm_password = Label(self.frame3, text="Confirm Password", font=("calibri", 15, "bold"),
-                                            fg="grey")
-        self.label_confirm_password.place(x=10, y=295)
-
-        self.entry_confirm_password = Entry(self.frame3, show="*", font=('calibri', 15, 'bold'), fg="black",
+        self.label_username = Label(self.boy_frame, text="Username", font=("calibri", 13, "bold"), bg="lightgrey")
+        self.label_username.place(x=8, y=200)
+        #
+        self.entry_username = Entry(self.boy_frame, font=('calibri', 15, 'bold'), fg="black", bg="lightgrey")
+        self.entry_username.place(x=108, y=200, height=30, width=150)
+        #
+        self.label_password = Label(self.boy_frame, text="Password", font=("calibri", 13, "bold"), bg="lightgrey")
+        self.label_password.place(x=8, y=230)
+        #
+        self.entry_password = Entry(self.boy_frame, show="*", font=('calibri', 15, 'bold'), fg="black", bg="lightgrey")
+        self.entry_password.place(x=108, y=230, height=30, width=150)
+        #
+        self.label_confirm_password = Label(self.boy_frame, text="Confirm Password", font=("calibri", 13, "bold"),
                                             bg="lightgrey")
-        self.entry_confirm_password.place(x=180, y=295, height=30, width=150)
-
-        self.button_register = Button(self.frame3, text='Register', command=self.save, fg="purple",
+        self.label_confirm_password.place(x=8, y=260)
+        #
+        self.entry_confirm_password = Entry(self.boy_frame, show="*", font=('calibri', 15, 'bold'), fg="black",
+                                            bg="lightgrey")
+        self.entry_confirm_password.place(x=140, y=260, height=30, width=120)
+        #
+        self.button_register = Button(self.boy_frame, text='Register', command=self.save, fg="purple",
                                       font="serif 16 bold")
-        self.button_register.place(x=100, y=350, height=30, width=100)
-        self.button_back = Button(self.frame3, text="Back", command=lambda: self.back(self.frame1), fg="Black",
+        self.button_register.place(x=10, y=305, height=30, width=95)
+        self.button_back = Button(self.boy_frame, text="Back", command=lambda: self.back(self.frame1), fg="Black",
                                   font="serif 16 bold")
-        self.button_back.place(x=150, y=400, height=30, width=100)
+        self.button_back.place(x=160, y=305, height=30, width=95)
 
 
     """Method to access one step behind interface"""
@@ -372,6 +384,123 @@ class Project:
 
         messagebox.showinfo('Successful', 'Registered success')
     """Save the users data in the database for future access"""
+    def err_sound(self):
+        def do (time=200):
+            Beep(261*2,time)
+
+        def do_sharp (time=200):
+            Beep(277*2,time)
+
+        def rae (time=200):
+            Beep(293*2,time)
+
+        def rae_sharp (time=200):
+            Beep(311*2,time)
+
+        def me (time=200):
+            Beep(329*2,time)
+
+        def fa (time=time):
+            Beep(349*2,time)
+
+        def fa_sharp (time=200):
+            Beep(369*2,time)
+
+        def sol (time=200):
+            Beep(392*2,time)
+        def sol_sharp (time=200):
+            Beep(415*2,time)
+        def ra (time=200):
+            Beep(440*2,time)
+        def ra_shar (time=200):
+            Beep(446*2,time)
+        def si (time=200):
+            Beep(493*2,time)
+
+        def high_do (time=200):
+            Beep(523*2,time)
+        def high_do_sharp (time=200):
+            Beep(554*2,time)
+
+        def high_rae (time=200):
+            Beep(587*2,time)
+        def high_rae_sharp (time=200):
+            Beep(622*2,time)
+        def high_me (time=200):
+            Beep(659*2,time)
+        def high_fa (time=200):
+            Beep(698*2,time)
+        def high_fa_sharp (time=200):
+            Beep(739*2,time)
+        def high_sol (time=200):
+            Beep(783*2,time)
+        def high_sol_sharp (time=200):
+            Beep(830*2,time)
+        def high_ra (time=200):
+            Beep(880*2,time)
+        def high_ra_sharp (time=200):
+            Beep(932*2,time)
+        def high_si (time=200):
+            Beep(987*2,time)
+
+
+        def main_melody():
+            fa_sharp()
+            time.sleep(0.2)
+            fa_sharp()
+            high_do_sharp()
+            si()
+            time.sleep(0.2)
+            ra()
+            time.sleep(0.2)
+            sol_sharp()
+            time.sleep(0.2)
+            sol_sharp()
+            sol_sharp()
+            si()
+            time.sleep(0.2)
+            ra()
+            sol_sharp()
+            fa_sharp()
+            time.sleep(0.2)
+            fa_sharp()
+            high_ra()
+            high_sol_sharp()
+            high_ra()
+            high_sol_sharp()
+            high_ra()
+
+            fa_sharp()
+            time.sleep(0.2)
+            fa_sharp()
+            high_ra()
+            high_sol_sharp()
+            high_ra()
+            high_sol_sharp()
+            high_ra()
+
+        def sub_melody():
+            for i in range(4):
+                ra(200)
+
+            for i in range(4):
+                high_do_sharp(200)
+
+            for i in range(4):
+                si(200)
+            for i in range(4):
+                high_me(200)
+
+            for i in range(12):
+                high_fa_sharp(200)
+
+            si(200)
+            ra(200)
+            sol_sharp(200)
+            me(200)
+        main_melody()
+        sub_melody()
+
 
     def save(self):
         self.con = Connection()
@@ -405,47 +534,41 @@ class Project:
         except mysql.connector.Error as e:
             messagebox.showerror('Error', e)
         self.con.close()
-
+        
 # ***************************************************************************************************************************
     """Face login system Using facial recognition system"""
-    def face_login(self):
-        saved_img = face_recognition.load_image_file("users_facial_data/"+self.label_username_entry.get()+".jpg")
-        print(saved_img)
-        saved_img_encodings = face_recognition.face_encodings(saved_img)[0]
-
-        # self.cap = cv2.VideoCapture("http://<IP Address>:4747/mjpegfeed")
-        self.cap = cv.VideoCapture(0)
-        _, self.vid = self.cap.read()
-
-        for i in range(1, 1000):
-
-            self.face = self.data.detectMultiScale(self.vid, scaleFactor=1.1, minNeighbors=4, minSize=(100, 100))
-
-            while self.cap.isOpened:
-                if cv.waitKey(1) & 0xFF == 13:
+    def face_login(self, username):
+        known_image = face_recognition.load_image_file("users_facial_data/"+f"{username}.jpg")
+        cap = cv.VideoCapture(0)
+        while cap.isOpened():
+            try:
+                if cv.waitKey(1) & 0xFF == ord("q"):
                     break
-                for x, y, h, w in self.face:
-                    self.crop_img = self.vid[y:y + h + 30, x:x + w + 30]
-                    self.image = cv.cvtColor(self.crop_img, cv.COLOR_BGR2GRAY)
-
-                    self.live_img_encoding = face_recognition.face_encodings(self.image)[0]
-                    print("encoding image = ", self.live_img_encoding)
+                ret, frame = cap.read()
+                frame = cv.flip(frame, 1)
+                cv.rectangle(frame,(175,40),(525,350),(0,255,0),3)
+                if cv.waitKey(1) & 0xFF == 13:
+                    frame = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+                    cv.imwrite("filename"+".jpg", frame)
+                    known_encoding = face_recognition.face_encodings(known_image)[0]
+                    unknown_image = face_recognition.load_image_file("filename.jpg")
+                    unknown_encoding = face_recognition.face_encodings(unknown_image)[0]
+                    results = face_recognition.compare_faces([known_encoding], unknown_encoding)
                     
-                    self.compare = face_recognition.compare_faces(saved_img_encodings, self.live_img_encoding, tolerance=0.6)
-                    print(self.compare)
-                    # if self.compare:
-                    #     return True
-                    #     break
-                    # else:
-                    #     return True
-                    #     break
-                    cv.imshow(self.crop_img)
-                    print("Comparing",self.compare)
-                    if self.compare == True:
+                    if results[0]:
+                        print("Matched")
+                        final_result = True
                         break
                     else:
-                        pass
-        self.cap.release()
+                        frequency = 2500  # Set Frequency To 2500 Hertz
+                        duration = 1000  # Set Duration To 1000 ms == 1 second
+                        winsound.Beep(frequency, duration)
+            except IndexError:
+                    print("No face is Detected ! ! !")
+            cv.imshow("Live", frame)
+        cap.release()
+        cv.destroyAllWindows()
+        return final_result
 # **********************************************************************************************************************************
 
     "Accessing database to login as a appropriate user"
@@ -467,14 +590,16 @@ class Project:
                     self.login_clear()
                 else:
                     if self.result[0] == self.password1:
-                        messagebox.showinfo("login", "Successfully logged in")
-                        self.load_backend()
-                        self.login_clear()
-                        self.counter = 0
+                        if self.face_login(self.username1) == True:
+                            messagebox.showinfo("login", "Successfully logged in")
+                            self.load_backend()
+                            self.login_clear()
+                            self.counter = 0
                     else:
                         self.counter += 1
                         if self.counter >= 3:
                             messaging.send_error_login()
+                            self.err_sound()
                         print(self.counter)
                         messagebox.showerror("Error", "Username or password do not matched")
                         self.login_clear()
