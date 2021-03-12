@@ -6,13 +6,13 @@ import cv2 as cv
 import os
 import messaging
 import numpy as np
-import face_recognition
-
+import face_detection
+import facecheck
 import weapon_detect
 import smoking
 import mask_detector
 import gender_detector
-
+import face_recognition
 
 
 class Project:
@@ -122,7 +122,7 @@ class Project:
         self.frame_dr.place(x=920, y=470)
 
         Button(self.frame_l, text="Face Detection", font=("cambria", 15, "bold"), fg="green", height=2,
-               width=18, command=lambda:face_recognition.face(self.frame_r,self.frame_dl)).place(x=5, y=5)
+               width=18, command=lambda:face_detection.face(self.frame_r,self.frame_dl)).place(x=5, y=5)
         Button(self.frame_l, text="Gender Detection", font=("cambria", 15, "bold"), fg="green", height=2,
                width=18, command=lambda: gender_detector.gen(self.frame_r,self.frame_dl)).place(x=5, y=85)
         Button(self.frame_l, text="Mask Detection", font=("cambria", 15, "bold"), fg="green", height=2,
@@ -317,17 +317,6 @@ class Project:
                                   font="serif 16 bold")
         self.button_back.place(x=150, y=400, height=30, width=100)
 
-    # def face_login(self):
-    #     self.cap = cv.VideoCapture(0)
-    #     self.interval = 10
-    #     self.frame2 = Frame(self.frame1, width=450, height=350, bg="red")
-    #     self.frame2.place(x=50, y=50)
-    #     self.canvas = Canvas(self.frame2, width=400, height=300)
-    #     self.canvas.place(x=0, y=0)
-    #     self.cap_button = Button(self.frame2, text='Capture', command=lambda: self.take_pic(self.vid), fg="purple",
-    #                              font="serif 16 bold")
-    #     self.cap_button.place(x=180, y=270, width=30, height=30)
-    #     self.update_image()
 
     """Method to access one step behind interface"""
 
@@ -417,44 +406,47 @@ class Project:
             messagebox.showerror('Error', e)
         self.con.close()
 
-
+# ***************************************************************************************************************************
     """Face login system Using facial recognition system"""
     def face_login(self):
         saved_img = face_recognition.load_image_file("users_facial_data/"+self.label_username_entry.get()+".jpg")
         print(saved_img)
         saved_img_encodings = face_recognition.face_encodings(saved_img)[0]
-        self.frame2 = Frame(self.frame2_right, width=750, height=580, bg="gray")
-        self.frame2.grid(row=0, column=0)
-        self.canvas = Canvas(self.frame2, width=1000, height=400)
-        self.canvas.place(x=0, y=0)
-        self.cap_button = Button(self.frame2, text='Capture', command=lambda: self.take_pic, fg="purple",
-                                 font="serif 16 bold")
 
         # self.cap = cv2.VideoCapture("http://<IP Address>:4747/mjpegfeed")
-        self.cap = cv2.VideoCapture(0)
+        self.cap = cv.VideoCapture(0)
         _, self.vid = self.cap.read()
 
         for i in range(1, 1000):
 
             self.face = self.data.detectMultiScale(self.vid, scaleFactor=1.1, minNeighbors=4, minSize=(100, 100))
 
-
-            while self.face != ():
+            while self.cap.isOpened:
+                if cv.waitKey(1) & 0xFF == 13:
+                    break
                 for x, y, h, w in self.face:
                     self.crop_img = self.vid[y:y + h + 30, x:x + w + 30]
                     self.image = cv.cvtColor(self.crop_img, cv.COLOR_BGR2GRAY)
 
-                    self.image = cv.resize(self.image, dsize=(450, 350), interpolation=cv.INTER_CUBIC)
-                    self.image = Image.fromarray(self.image)  # to PIL format
-                    self.image = ImageTk.PhotoImage(self.image)  # to ImageTk format
-                    self.canvas.create_image(500, 200, image=self.image)
-
                     self.live_img_encoding = face_recognition.face_encodings(self.image)[0]
                     print("encoding image = ", self.live_img_encoding)
+                    
                     self.compare = face_recognition.compare_faces(saved_img_encodings, self.live_img_encoding, tolerance=0.6)
+                    print(self.compare)
+                    # if self.compare:
+                    #     return True
+                    #     break
+                    # else:
+                    #     return True
+                    #     break
+                    cv.imshow(self.crop_img)
                     print("Comparing",self.compare)
-
-            self.cap.release()
+                    if self.compare == True:
+                        break
+                    else:
+                        pass
+        self.cap.release()
+# **********************************************************************************************************************************
 
     "Accessing database to login as a appropriate user"
     def login(self):
@@ -471,7 +463,7 @@ class Project:
                 self.cur.execute(self.query)
                 self.result = self.cur.fetchone()
                 if self.result == None:
-                    messagebox.showerror("Error", "Username don't exist in database ")
+                    messagebox.showerror("Error", "Invalid Username/Password ! ! !")
                     self.login_clear()
                 else:
                     if self.result[0] == self.password1:

@@ -12,7 +12,7 @@ def smoke(frame1, frame2):
     # cap = cv2.VideoCapture("http://<IP Address>:4747/mjpegfeed")
     cap = cv2.VideoCapture(0)
 
-    classes = ['Not ', "Smoking"]
+    classes = ["Smoking", 'Not']
     canvas = Canvas(frame1, width=785, height=425)
     canvas.place(x=10, y=10)
     exit_button = Button(frame1, text='Close', fg="purple", font="serif 16 bold",
