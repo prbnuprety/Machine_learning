@@ -163,7 +163,7 @@ class Project:
                   fg="green").place(x=10, y=40)
 
         # self.cap = cv2.VideoCapture("http://<IP Address>:4747/mjpegfeed")
-        self.cap = cv2.VideoCapture(0)
+        self.cap = cv.VideoCapture(0)
         self.canvas2 =  Canvas(self.frame_r, width=785, height=425)
         self.canvas2.place(x=10, y=10)
         self.video_cap()
@@ -192,19 +192,17 @@ class Project:
         # self.cap = cv2.VideoCapture("http://<IP Address>:4747/mjpegfeed")
         self.cap = cv.VideoCapture(0)
         self.interval = 1
-        self.frame2 = Frame(self.frame1, width=1000, height=500, bg="red")
-        self.frame2.place(x=50, y=50)
-        self.canvas = Canvas(self.frame2, width=1000, height=400)
+        self.frame2 = Frame(self.frame1, width=600, height=800, bg="red")
+        self.frame2.place(x=0, y=0)
+        self.canvas = Canvas(self.frame2, width=600, height=800)
         self.canvas.place(x=0, y=0)
-        self.cap_button = Button(self.frame2, text='Capture', command=lambda: self.take_pic, fg="purple",
-                                 font="serif 16 bold")
-        self.cap_button.place(x=220, y=430, width=100, height=50)
+
         self.sav_button = Button(self.frame2, text='Save', fg="purple",
                                  font="serif 16 bold", command=self.take_pic)
-        self.sav_button.place(x=470, y=430, width=100, height=50)
+        self.sav_button.place(x=10, y=430, width=100, height=50)
         self.exit_button = Button(self.frame2, text='Exit', fg="purple",
                                   font="serif 16 bold", command=lambda: self.back(self.frame2))
-        self.exit_button.place(x=720, y=430, width=100, height=50)
+        self.exit_button.place(x=150, y=430, width=100, height=50)
         self.update_image()
 
     """Resizing, converting and creating image in canvas to register facial data"""
@@ -224,7 +222,7 @@ class Project:
             self.image = cv.resize(self.image, dsize=(450, 350), interpolation=cv.INTER_CUBIC)
             self.image = Image.fromarray(self.image)  # to PIL format
             self.image = ImageTk.PhotoImage(self.image)  # to ImageTk format
-            self.canvas.create_image(250, 250, image=self.image)
+            self.canvas.create_image(200, 250, image=self.image)
 
         except:
             pass
@@ -242,95 +240,96 @@ class Project:
         self.frame2_right.grid_forget()
         self.interface.title('Registration Page')
 
-        self.frame1 = Frame(self.interface, width=600, height=800, bg="grey")
-        self.frame1.place(x=330, y=30)
+        self.main_frame = Frame(self.interface, width=1080, height=800, bg="lightgrey")
+        self.main_frame.place(x=0, y=0)
+
+        self.frame1 = Frame(self.main_frame, width=600, height=800, bg="grey")
+        self.frame1.place(x=330, y=0)
 
 
         # loading images in frame2_right###
 
         self.bg_1 = Image.open('form.png')
-        self.resized_1 = self.bg_1.resize((350, 550), Image.ANTIALIAS)
+        self.resized_1 = self.bg_1.resize((350, 700), Image.ANTIALIAS)
         self.image2_1= ImageTk.PhotoImage(self.resized_1)
 
         self.bg_image_1 = Label(self.frame1, image=self.image2_1)
         self.bg_image_1.pack(pady=1)
 
-        self.boy_frame= Frame(self.frame1,width=265,height=365,bg="lightgrey")
-        self.boy_frame.place(x=45,y=220)
 
-        self.label = Label(self.boy_frame, text="We kindly request you to register here!!", font=("serif", 10,"bold"),
+        self.label = Label(self.main_frame, text="We kindly request you to register here!!", font=("serif", 10,"bold"),
                     fg="red",bg="lightgrey")
         self.label.place(x=5, y=0)
         #
-        self.label_fname = Label(self.boy_frame, text="First Name ", font=("calibri", 13, "bold"), bg="lightgrey")
-        self.label_fname.place(x=7, y=25)
+        self.label_fname = Label(self.frame1, text="First Name ", font=("calibri", 13, "bold"))
+        self.label_fname.place(x=37, y=280)
+
+        self.entry_fname = Entry(self.frame1, font=('calibri', 13, 'bold'), bg="lightgrey")
+        self.entry_fname.place(x=165, y=280, height=28,width=150)
         #
-        self.entry_fname = Entry(self.boy_frame, font=('calibri', 13, 'bold'), bg="lightgrey")
-        self.entry_fname.place(x=108, y=25, height=28,width=150)
+        self.label_middle_name = Label(self.frame1, text="Middle Name", font=("calibri", 13, "bold"))
+        self.label_middle_name.place(x=37, y=310)
         #
-        self.label_middle_name = Label(self.boy_frame, text="Middle Name", font=("calibri", 13, "bold"), bg="lightgrey")
-        self.label_middle_name.place(x=7, y=50)
+        self.entry_middle_name = Entry(self.frame1, font=('calibri', 13, 'bold'), bg="lightgrey")
+        self.entry_middle_name.place(x=165, y=310, height=30, width=150)
         #
-        self.entry_middle_name = Entry(self.boy_frame, font=('calibri', 13, 'bold'), bg="lightgrey")
-        self.entry_middle_name.place(x=108, y=50, height=30, width=150)
+        self.label_lname = Label(self.frame1, text="Last Name", font=("calibri", 15, "bold"))
+        self.label_lname.place(x=37, y=340)
         #
-        self.label_lname = Label(self.boy_frame, text="Last Name", font=("calibri", 15, "bold"), bg="lightgrey")
-        self.label_lname.place(x=7, y=80)
+        self.entry_lname_name = Entry(self.frame1, font=('calibri', 15, 'bold'), bg="lightgrey")
+        self.entry_lname_name.place(x=165, y=340, height=30, width=150)
         #
-        self.entry_lname_name = Entry(self.boy_frame, font=('calibri', 15, 'bold'), bg="lightgrey")
-        self.entry_lname_name.place(x=108, y=80, height=30, width=150)
+        self.label_age = Label(self.frame1, text="Age", font=("calibri", 13, "bold"))
+        self.label_age.place(x=37, y=370)
         #
-        self.label_age = Label(self.boy_frame, text="Age", font=("calibri", 13, "bold"), bg="lightgrey")
-        self.label_age.place(x=7, y=110)
+        self.entry_age_name = Entry(self.frame1, font=('calibri', 15, 'bold'), fg="black", bg="lightgrey")
+        self.entry_age_name.place(x=165, y=370, height=30, width=150)
         #
-        self.entry_age_name = Entry(self.boy_frame, font=('calibri', 15, 'bold'), fg="black", bg="lightgrey")
-        self.entry_age_name.place(x=108, y=110, height=30, width=150)
+        self.label_num = Label(self.frame1, text="Phone No.", font=("cambria", 13, "bold"))
+        self.label_num.place(x=37, y=400)
         #
-        self.label_num = Label(self.boy_frame, text="Phone No.", font=("cambria", 13, "bold"), bg="lightgrey")
-        self.label_num.place(x=7, y=140)
+        self.entry_num = Entry(self.frame1, font=('cambria', 15, 'bold'), fg="black", bg="lightgrey")
+        self.entry_num.place(x=165, y=400, height=30, width=150)
         #
-        self.entry_num = Entry(self.boy_frame, font=('cambria', 15, 'bold'), fg="black", bg="lightgrey")
-        self.entry_num.place(x=108, y=140, height=30, width=150)
+        self.label_gender = Label(self.frame1, text="Gender", font=("calibri", 13, "bold"))
+        self.label_gender.place(x=37, y=430)
         #
-        self.label_gender = Label(self.boy_frame, text="Gender", font=("calibri", 13, "bold"), bg="lightgrey")
-        self.label_gender.place(x=7, y=170)
-        #
-        self.entry_gender = ttk.Combobox(self.boy_frame, state="readonly", values=["Male", "Female", "Others"],
+        self.entry_gender = ttk.Combobox(self.frame1, state="readonly", values=["Male", "Female", "Others"],
                                           font=("calibri", 15, "bold"))
-        self.entry_gender.place(x=108, y=170, height=30, width=150)
+        self.entry_gender.place(x=165, y=430, height=30, width=150)
         self.entry_gender.set("Select")
-        self.label_username = Label(self.boy_frame, text="Username", font=("calibri", 13, "bold"), bg="lightgrey")
-        self.label_username.place(x=8, y=200)
+        self.label_username = Label(self.frame1, text="Username", font=("calibri", 13, "bold"))
+        self.label_username.place(x=37, y=460)
         #
-        self.entry_username = Entry(self.boy_frame, font=('calibri', 15, 'bold'), fg="black", bg="lightgrey")
-        self.entry_username.place(x=108, y=200, height=30, width=150)
+        self.entry_username = Entry(self.frame1, font=('calibri', 15, 'bold'), fg="black", bg="lightgrey")
+        self.entry_username.place(x=165, y=460, height=30, width=150)
         #
-        self.label_password = Label(self.boy_frame, text="Password", font=("calibri", 13, "bold"), bg="lightgrey")
-        self.label_password.place(x=8, y=230)
+        self.label_password = Label(self.frame1, text="Password", font=("calibri", 13, "bold"))
+        self.label_password.place(x=37, y=490)
         #
-        self.entry_password = Entry(self.boy_frame, show="*", font=('calibri', 15, 'bold'), fg="black", bg="lightgrey")
-        self.entry_password.place(x=108, y=230, height=30, width=150)
+        self.entry_password = Entry(self.frame1, show="*", font=('calibri', 15, 'bold'), fg="black", bg="lightgrey")
+        self.entry_password.place(x=165, y=490, height=30, width=150)
         #
-        self.label_confirm_password = Label(self.boy_frame, text="Confirm Password", font=("calibri", 13, "bold"),
+        self.label_confirm_password = Label(self.frame1, text="Confirm Password", font=("calibri", 13, "bold"))
+        self.label_confirm_password.place(x=37, y=520)
+
+        self.entry_confirm_password = Entry(self.frame1, show="*", font=('calibri', 15, 'bold'), fg="black",
                                             bg="lightgrey")
-        self.label_confirm_password.place(x=8, y=260)
-        #
-        self.entry_confirm_password = Entry(self.boy_frame, show="*", font=('calibri', 15, 'bold'), fg="black",
-                                            bg="lightgrey")
-        self.entry_confirm_password.place(x=140, y=260, height=30, width=120)
-        #
-        self.button_register = Button(self.boy_frame, text='Register', command=self.save, fg="purple",
+        self.entry_confirm_password.place(x=180, y=520, height=30, width=120)
+
+        self.button_register = Button(self.frame1, text='Register', command=self.save, fg="purple",
                                       font="serif 16 bold")
-        self.button_register.place(x=10, y=305, height=30, width=95)
-        self.button_back = Button(self.boy_frame, text="Back", command=lambda: self.back(self.frame1), fg="Black",
+        self.button_register.place(x=37, y=565, height=30, width=95)
+        self.button_back = Button(self.frame1, text="Back", command=lambda: self.back(self.main_frame), fg="Black",
                                   font="serif 16 bold")
-        self.button_back.place(x=160, y=305, height=30, width=95)
+        self.button_back.place(x=200, y=565, height=30, width=95)
 
 
     """Method to access one step behind interface"""
 
     def back(self, frame):
         frame.place_forget()
+
 
 
         self.frame_left.grid(row=0, column=0, padx=8, pady=5)
@@ -377,7 +376,7 @@ class Project:
 
 
         self.clear()
-        self.back(self.frame1)
+        self.back(self.main_frame)
 
         messagebox.showinfo('Successful', 'Registered success')
     """Save the users data in the database for future access"""
@@ -537,7 +536,9 @@ class Project:
     def face_login(self, username):
         known_image = face_recognition.load_image_file("users_facial_data/"+f"{username}.jpg")
         cap = cv.VideoCapture(0)
+        main_img= cv.imread("users_facial_data/"+f"{username}.jpg")
         while cap.isOpened():
+            cv.imshow("photo", main_img)
             try:
                 if cv.waitKey(1) & 0xFF == ord("q"):
                     break
@@ -551,7 +552,7 @@ class Project:
                     unknown_image = face_recognition.load_image_file("filename.jpg")
                     unknown_encoding = face_recognition.face_encodings(unknown_image)[0]
                     results = face_recognition.compare_faces([known_encoding], unknown_encoding)
-                    
+
                     if results[0]:
                         print("Matched")
                         final_result = True
@@ -559,10 +560,11 @@ class Project:
                     else:
                         frequency = 2500  # Set Frequency To 2500 Hertz
                         duration = 1000  # Set Duration To 1000 ms == 1 second
-                        winsound.Beep(frequency, duration)
+                        Beep(frequency, duration)
+
+                cv.imshow("Live", frame)
             except IndexError:
                     print("No face is Detected ! ! !")
-            cv.imshow("Live", frame)
         cap.release()
         cv.destroyAllWindows()
         return final_result

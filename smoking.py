@@ -50,7 +50,7 @@ def smoke(frame1, frame2):
 
             # write label and confidence above face rectangle
             # cv2.putText(frame2, labels, (100, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
-            text = Label(frame2, text=labels, font=("Courier", 35), bg="black", fg="white")
+            text = Label(frame2, text="**********"+labels+"**********", font=("Courier", 35), bg="black", fg="white")
             text.place(x=150, y=40)
             rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             cv2image = cv2.resize(rgb, (795, 435))
