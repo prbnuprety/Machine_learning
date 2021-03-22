@@ -15,6 +15,8 @@ import gender_detector
 import face_recognition
 from winsound import Beep
 import time
+import hashlib
+import pass_to_hash
 
 
 class Project:
@@ -144,11 +146,6 @@ class Project:
         Label(self.frame_dr, text="Current User",font=("Courier", 12), bg="black", fg="white").place(x=20, y=0)
         Label(self.frame_dr, text=f"{self.username1}".upper(), bg="black",font=("Courier", 18), fg="white").place(x=0,y= 20)
 
-
-        # Label(self.frame_dl, text=f"{self.username1}".upper(), bg="black", fg="white").place(x=0, y=20)
-        # Label(self.frame_dl, text=f"{self.username1}".upper(), bg="black", fg="white").place(x=0, y=40)
-        # Label(self.frame_dl, text=f"{self.username1}".upper(), bg="black", fg="white").place(x=0, y=60)
-        # Label(self.frame_dl, text=f"{self.username1}".upper(), bg="black", fg="white").place(x=0, y=80)
 
     """Accesing cam after login to detect things"""
 
@@ -379,6 +376,7 @@ class Project:
         self.back(self.main_frame)
 
         messagebox.showinfo('Successful', 'Registered success')
+
     """Save the users data in the database for future access"""
     def err_sound(self):
         def do (time=200):
@@ -515,7 +513,7 @@ class Project:
 
             if self.fname and self.lname and self.age and self.phone and self.gen and self.username and self.password and self.conform_pass:
                 if self.password == self.conform_pass:
-
+                    self.password =  pass_to_hash.encrypt_string(self.password)
 
                     self.value = (self.fname, self.mname, self.lname, self.age, self.phone, self.gen, self.username, self.password)
                     self.query = 'insert into registration values(%s,%s,%s,%s,%s,%s,%s,%s)'
@@ -544,6 +542,7 @@ class Project:
                     break
                 ret, frame = cap.read()
                 frame = cv.flip(frame, 1)
+
                 cv.rectangle(frame,(175,40),(525,350),(0,255,0),3)
                 if cv.waitKey(1) & 0xFF == 13:
                     frame = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
@@ -551,7 +550,7 @@ class Project:
                     known_encoding = face_recognition.face_encodings(known_image)[0]
                     unknown_image = face_recognition.load_image_file("filename.jpg")
                     unknown_encoding = face_recognition.face_encodings(unknown_image)[0]
-                    results = face_recognition.compare_faces([known_encoding], unknown_encoding)
+                    results = face_recognition.compare_faces([known_encoding], unknown_encoding, tolerance=0.5)
 
                     if results[0]:
                         print("Matched")
@@ -578,7 +577,7 @@ class Project:
         """ .................File handling for retrieving and comparing data to login..................."""
         self.username1 = self.label_username_entry.get()
         self.password1 = self.label_password_entry.get()
-
+        self.password1 = pass_to_hash.encrypt_string(self.password1)
         try:
             if self.username1 and self.password1:
                 self.query = f'select password from registration where username="{self.username1}"'

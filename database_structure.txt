@@ -9,10 +9,8 @@ age int ,
 phone varchar(),
 gender varchar(10),
 username varchar(10) primary key, 
-password varchar(10));
+password varchar(70));
 
 select * from registration;
 
 drop table registration;
-
-i am sandes;
