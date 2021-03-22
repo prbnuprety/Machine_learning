@@ -591,6 +591,7 @@ class Project:
                     if self.result[0] == self.password1:
                         if self.face_login(self.username1) == True:
                             messagebox.showinfo("login", "Successfully logged in")
+                            
                             self.load_backend()
                             self.login_clear()
                             self.counter = 0
