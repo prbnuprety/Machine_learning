@@ -8,7 +8,7 @@ from PIL import Image, ImageTk
 
 
 def smoke(frame1, frame2):
-    model = load_model("Models/smoke.model")
+    model = load_model("Models/smoke_detection")
     # cap = cv2.VideoCapture("http://<IP Address>:4747/mjpegfeed")
     cap = cv2.VideoCapture(0)
 

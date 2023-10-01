@@ -31,7 +31,7 @@ class Project:
         self.interface.config(bg="skyblue")
 
         self.ret = False
-        self.file = "haarcascade_frontalface_default.xml"
+        self.file = "files/haarcascade_frontalface_default.xml"
         self.data = cv.CascadeClassifier(self.file)
 
         self.frame_left = Frame(self.interface, width=300, height=470, bg='lightblue')
@@ -50,9 +50,9 @@ class Project:
         self.frame_l.place(x=10, y=50)
 
         # loading images in frame2_right###
-        self.bg = Image.open("frontface.PNG")
+        self.bg = Image.open("files/frontface.PNG")
         # resized image
-        self.resized = self.bg.resize((280, 360), Image.ANTIALIAS)
+        self.resized = self.bg.resize((280, 360), Image.LANCZOS)
         self.image2 = ImageTk.PhotoImage(self.resized)
 
         # Image size
@@ -63,7 +63,7 @@ class Project:
         self.frame2_right.grid(row=0, column=1, padx=10, pady=5)
 
         # loading images in fram2_right####
-        self.bg = ImageTk.PhotoImage(file="face123.jpg")
+        self.bg = ImageTk.PhotoImage(file="files/face123.jpg")
         self.bg_image = Label(self.frame2_right, image=self.bg)
         self.bg_image.place(x=10, y=10, relwidth=1, relheight=1)
 
@@ -246,8 +246,8 @@ class Project:
 
         # loading images in frame2_right###
 
-        self.bg_1 = Image.open('form.png')
-        self.resized_1 = self.bg_1.resize((350, 700), Image.ANTIALIAS)
+        self.bg_1 = Image.open('files/form.png')
+        self.resized_1 = self.bg_1.resize((350, 700), Image.LANCZOS)
         self.image2_1= ImageTk.PhotoImage(self.resized_1)
 
         self.bg_image_1 = Label(self.frame1, image=self.image2_1)

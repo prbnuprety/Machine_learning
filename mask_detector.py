@@ -7,7 +7,7 @@ from tkinter import *
 from PIL import Image, ImageTk
 
 def mask(frame1,frame2):
-    model = load_model("Models/mask.model")
+    model = load_model("Models/mask_detector.model")
     cascade = "haarcascade_frontalface_default.xml"
     face_classifier = cv2.CascadeClassifier(cascade)
 
